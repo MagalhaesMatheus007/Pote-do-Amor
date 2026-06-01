@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Pote do Amor</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="bg-layer">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <!-- TELA 1: INTRO -->
+  <main id="intro" class="screen active">
+    <h1 class="intro-title">Tenho uma surpresa<br>pra você...</h1>
+
+    <div class="env-wrap">
+      <div class="envelope" id="envelope" onclick="toggleEnvelope()">
+        <div class="env-body"></div>
+        <div class="env-flap"></div>
+        <div class="env-letter">Tem algo especial aqui dentro</div>
+      </div>
+    </div>
+
+    <p class="intro-sub">fiz isso com todo carinho só pra você</p>
+    <button class="btn-primary" onclick="goTo('intro','login')">Abrir</button>
+  </main>
+
+  <!-- TELA 2: LOGIN -->
+  <main id="login" class="screen hidden">
+    <section class="login-card">
+      <img id="couplePhoto" class="couple-photo" src="foto1.jpg" alt="foto do casal">
+
+      <p class="login-question">
+        Mas antes disso...<br>
+        Quando foi nosso primeiro beijo?
+      </p>
+
+      <input
+        class="login-input"
+        type="text"
+        id="senhaInput"
+        placeholder="Ex: 13/03"
+        onkeydown="if(event.key === 'Enter') verificarSenha()"
+      >
+
+      <button class="btn-primary full" onclick="verificarSenha()">Entrar</button>
+    </section>
+  </main>
+
+  <!-- TELA 3: SITE -->
+  <main id="site" class="screen hidden">
+    <section class="site-inner">
+      <h1 class="site-title">Pra você...</h1>
+
+      <section class="counter-box" id="counterBox" onclick="easterEggHint()">
+        <span class="counter-number" id="counterNum">0</span>
+        <span class="counter-label">dias criando memórias juntos</span>
+        <span class="counter-sub" id="counterSub"></span>
+
+        <div class="counter-hearts">
+          <div class="counter-heart"></div>
+          <div class="counter-heart"></div>
+          <div class="counter-heart"></div>
+        </div>
+      </section>
+
+      <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+        <span class="music-dot"></span>
+        <span id="musicLabel">tocar nossa música</span>
+      </button>
+      <audio id="audio" src="musica.mp3" loop></audio>
+
+      <section class="progress-wrap">
+        <div class="progress-top">
+          <span>mensagens de hoje</span>
+          <span id="progText">0/10</span>
+        </div>
+
+        <div class="progress-bar">
+          <div class="progress-fill" id="progFill"></div>
+        </div>
+      </section>
+
+      <div class="sec-div">nossa história em fotos</div>
+
+      <section class="gallery-wrap" id="galleryWrap">
+        <div class="swipe-hint" id="swipeHint">deslize para navegar</div>
+
+        <div class="gallery-arrows">
+          <button class="gallery-arr" onclick="galleryMove(-1)" aria-label="foto anterior">&#8249;</button>
+          <button class="gallery-arr" onclick="galleryMove(1)" aria-label="próxima foto">&#8250;</button>
+        </div>
+
+        <div class="gallery-dots" id="galleryDots"></div>
+      </section>
+
+      <div class="sec-div">como você está se sentindo?</div>
+
+      <section class="cat-grid">
+        <div class="cat-card">
+          <h2>Emoções</h2>
+          <button class="cat-btn" onclick="openMsg('triste')">triste</button>
+          <button class="cat-btn" onclick="openMsg('feliz')">feliz</button>
+          <button class="cat-btn" onclick="openMsg('medo')">medo</button>
+          <button class="cat-btn" onclick="openMsg('carente')">carente</button>
+        </div>
+
+        <div class="cat-card">
+          <h2>Apoio</h2>
+          <button class="cat-btn" onclick="openMsg('desanimada')">desanimada</button>
+          <button class="cat-btn" onclick="openMsg('forca')">força</button>
+          <button class="cat-btn" onclick="openMsg('motivacao')">motivação</button>
+          <button class="cat-btn" onclick="openMsg('insegura')">insegura</button>
+        </div>
+
+        <div class="cat-card">
+          <h2>A gente</h2>
+          <button class="cat-btn" onclick="openMsg('saudade')">saudade</button>
+          <button class="cat-btn" onclick="openMsg('lembrando')">lembrando de nós</button>
+          <button class="cat-btn" onclick="openMsg('teamo')">te amo</button>
+          <button class="cat-btn" onclick="openMsg('orgulho')">orgulho de você</button>
+        </div>
+      </section>
+
+      <section class="msg-display" id="msgDisplay">
+        <button class="msg-close" onclick="closeMsg()" aria-label="fechar mensagem">x</button>
+        <div class="msg-label" id="msgLabel"></div>
+        <div class="msg-text" id="msgText"></div>
+      </section>
+
+      <section class="final-letter" id="finalLetter">
+        <h2>Uma cartinha especial</h2>
+        <p>
+          Se você chegou até aqui, é porque abriu cada pedacinho disso com muito carinho.
+          E isso só me faz ter ainda mais certeza do quanto você é especial pra mim.
+          Obrigado por existir, por ser você, e por fazer meus dias mais leves, mais bonitos e mais cheios de amor.
+        </p>
+      </section>
+
+      <div class="sec-div">mensagens que você já abriu</div>
+
+      <section class="history-list" id="histList">
+        <p class="history-empty">Ainda não tem nenhuma... escolha uma categoria acima!</p>
+      </section>
+    </section>
+  </main>
+
+  <!-- SEGREDINHO -->
+  <section id="easterEgg">
+    <div class="egg-stars" id="eggStars"></div>
+
+    <h2 class="egg-title">Encontrou o segredinho!</h2>
+
+    <div class="egg-msg" id="eggMsg">
+      Eu não sei como descrever o quanto você significa pra mim.
+      Cada dia ao seu lado é uma lembrança que quero guardar pra sempre.
+      Você é minha parte favorita de todos os dias.
+      Obrigado por existir do jeitinho que você é.
+    </div>
+
+    <button class="egg-close" onclick="closeEgg()">Fechar</button>
+  </section>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
