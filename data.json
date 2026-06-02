@@ -9,8 +9,32 @@
     "foto4.jpg",
     "foto5.jpg",
     "foto6.jpg"
-  ],
-  "musica": "musica.mp3",
+],
+"musica": "musica.mp3",
+
+"nomeEla": "meu amor",
+"mensagemAniversario": "Hoje é um dia muito especial. Eu só queria te lembrar o quanto você é importante pra mim e o quanto eu sou feliz por ter você na minha vida.",
+
+"datasEspeciais": [
+  {
+    "nome": "Pedido de Namoro",
+    "data": "2025-09-13",
+    "anual": true,
+    "destaque": true
+  },
+  {
+    "nome": "Dia dos Namorados",
+    "data": "2025-06-12",
+    "anual": true,
+    "destaque": true
+  },
+  {
+    "nome": "Seu Aniversário",
+    "data": "2025-04-10",
+    "anual": true,
+    "destaque": true
+  }
+],
   "mensagens": {
     "triste": [
       "Tô com você, sempre. Pode chorar, mas sabe que não está sozinha.",
