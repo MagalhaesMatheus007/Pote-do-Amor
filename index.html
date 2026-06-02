@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Pote do Amor</title>
 
+  <meta name="theme-color" content="#c95577">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Pote do Amor">
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="icon" href="icon-192.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -37,30 +47,34 @@
 
   <!-- TELA 2: LOGIN -->
   <main id="login" class="screen hidden">
-    <section class="login-card">
-      <img id="couplePhoto" class="couple-photo" src="foto1.jpg" alt="foto do casal">
+  <section class="login-card">
+    <img id="couplePhoto" class="couple-photo" src="foto1.jpg" alt="foto do casal">
 
-      <p class="login-question">
-        Mas antes disso...<br>
-        Quando foi nosso primeiro beijo???
-      </p>
+    <p class="login-question">
+      Mas antes disso...<br>
+      Quando foi nosso primeiro beijo???
+    </p>
 
-      <input
-        class="login-input"
-        type="text"
-        id="senhaInput"
-        placeholder="Ex: 13/03"
-        onkeydown="if(event.key === 'Enter') verificarSenha()"
-      >
+    <input
+      class="login-input"
+      type="text"
+      id="senhaInput"
+      placeholder="Ex: xx/xx"
+      onkeydown="if(event.key === 'Enter') verificarSenha()"
+    >
 
-      <button class="btn-primary full" onclick="verificarSenha()">Entrar</button>
-    </section>
+    <button class="btn-primary full" onclick="verificarSenha()">Entrar</button>
+
+    <p class="login-sub">
+      foi nesse dia que tudo começou a fazer sentido, e desde então você virou meu lugar favorito
+    </p>
+</section>
   </main>
 
   <!-- TELA 3: SITE -->
   <main id="site" class="screen hidden">
     <section class="site-inner">
-      <h1 class="site-title">Pra você...</h1>
+      <h1 class="site-title">Nosso cantinho...</h1>
 
       <section class="counter-box" id="counterBox" onclick="easterEggHint()">
         <span class="counter-number" id="counterNum">0</span>
@@ -98,6 +112,10 @@
       
       <audio id="audio" src="musica.mp3" loop></audio>
 
+      <div class="sec-div">datas especiais</div>
+
+      <section class="dates-scroll" id="datesScroll"></section>
+
       <section class="progress-wrap">
         <div class="progress-top">
           <span>mensagens de hoje</span>
@@ -109,7 +127,7 @@
         </div>
       </section>
 
-      <div class="sec-div">um pouquinho de nós...</div>
+      <div class="sec-div">um pedacinho de nós...</div>
 
       <section class="video-story-wrap">
         <video class="video-story" autoplay muted loop playsinline>
@@ -167,6 +185,19 @@
       </section>
     </section>
   </main>
+
+  <!-- TELA DE ANIVERSÁRIO -->
+  <section id="aniversarioScreen">
+    <div class="aniv-hearts-bg" id="anivHeartsBg"></div>
+
+    <span class="aniv-badge" id="anivBadge">dia especial</span>
+    <span class="aniv-numero" id="anivNumero">0</span>
+    <span class="aniv-unidade" id="anivUnidade"></span>
+
+    <div class="aniv-msg" id="anivMsg"></div>
+
+    <button class="aniv-close" onclick="fecharAniversario()">com amor ♥</button>
+  </section>
 
   <!-- SEGREDINHO -->
   <section id="easterEgg">

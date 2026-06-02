@@ -126,6 +126,7 @@ body {
   padding: 40px 20px;
   gap: 28px;
   text-align: center;
+  transform: translateY(-25px);
 }
 
 .intro-title {
@@ -168,7 +169,7 @@ body {
   cursor: pointer;
   transform-style: preserve-3d;
   transition: transform 0.3s ease;
-  filter: drop-shadow(0 16px 36px var(--shadow));
+  filter: drop-shadow(0 18px 38px rgba(201, 85, 119, 0.24));
 }
 
 .envelope:hover {
@@ -181,6 +182,7 @@ body {
   background: linear-gradient(145deg, #f9c9d8, #f0a5bf);
   border-radius: 18px;
   overflow: hidden;
+  box-shadow: inset 0 -10px 20px rgba(201, 85, 119, 0.12);
 }
 
 .env-body::before {
@@ -344,6 +346,7 @@ body {
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   min-height: 52px;
+  min-width: 120px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -484,6 +487,7 @@ body {
   font-family: "Quicksand", sans-serif;
   font-size: 0.95rem;
   color: var(--text-mid);
+  cursor: pointer;
   cursor: pointer;
   transition: all 0.2s;
   box-shadow: 0 4px 16px var(--shadow);
@@ -1243,4 +1247,455 @@ body {
 
 .escondido {
   display: none !important;
+}
+
+/* ══════════════════════════════════════════════
+   ADICIONE ISSO NO FINAL DO SEU style.css
+══════════════════════════════════════════════ */
+
+
+/* ══ DATAS ESPECIAIS ══════════════════════ */
+
+.dates-scroll {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.dates-scroll::-webkit-scrollbar { display: none; }
+
+.date-card {
+  flex: 0 0 auto;
+  min-width: 142px;
+  background: var(--card);
+  backdrop-filter: blur(14px);
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  border-radius: 20px;
+  padding: 18px 16px;
+  text-align: center;
+  box-shadow: 0 8px 24px var(--shadow);
+  transition: transform 0.2s;
+  touch-action: manipulation;
+}
+.date-card:active { transform: scale(0.97); }
+
+/* Card de "hoje" */
+.date-card.hoje {
+  background: linear-gradient(135deg, var(--rose-mid), var(--rose-dark));
+  border-color: transparent;
+  animation: todayPulse 2.5s ease-in-out infinite;
+}
+@keyframes todayPulse {
+  0%, 100% { box-shadow: 0 8px 24px var(--shadow), 0 0 0 0 rgba(240, 154, 181, 0.5); }
+  50%       { box-shadow: 0 8px 24px var(--shadow), 0 0 0 10px rgba(240, 154, 181, 0); }
+}
+
+/* Card "em breve" (7 dias ou menos) */
+.date-card.em-breve {
+  border-color: var(--rose-mid);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.date-num {
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
+  font-size: 2.2rem;
+  color: var(--rose-dark);
+  line-height: 1;
+  display: block;
+}
+.date-card.hoje .date-num    { color: #fff; font-size: 1.6rem; margin-top: 4px; }
+.date-card.em-breve .date-num { color: var(--rose-dark); }
+
+.date-unit {
+  font-size: 0.68rem;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  display: block;
+  margin-top: 2px;
+}
+.date-card.hoje .date-unit { color: rgba(255, 255, 255, 0.8); }
+
+.date-name {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-mid);
+  margin-top: 10px;
+  display: block;
+  line-height: 1.35;
+}
+.date-card.hoje .date-name    { color: rgba(255, 255, 255, 0.95); }
+.date-card.em-breve .date-name { color: var(--rose-dark); }
+
+.date-status {
+  font-size: 0.68rem;
+  color: var(--text-light);
+  margin-top: 5px;
+  font-style: italic;
+  display: block;
+}
+.date-card.hoje .date-status    { color: rgba(255, 255, 255, 0.8); }
+.date-card.em-breve .date-status { color: var(--rose); font-weight: 700; }
+
+
+/* ══ TELA DE ANIVERSÁRIO ══════════════════ */
+
+#aniversarioScreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9100;
+  background: linear-gradient(160deg, #b04468 0%, #c95577 40%, #e8789a 75%, #f09ab5 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+  overflow: hidden;
+}
+#aniversarioScreen.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Corações flutuando no fundo */
+.aniv-hearts-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.aniv-heart {
+  position: absolute;
+  animation: anivFloat linear infinite;
+  opacity: 0;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: normal;
+}
+@keyframes anivFloat {
+  0%   { transform: translateY(110vh) rotate(-15deg) scale(0.7); opacity: 0; }
+  8%   { opacity: 0.85; }
+  92%  { opacity: 0.35; }
+  100% { transform: translateY(-60px) rotate(15deg) scale(1.1); opacity: 0; }
+}
+
+/* Badge topo */
+.aniv-badge {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50px;
+  padding: 7px 22px;
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: #fff;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  animation: fadeDown 0.5s ease both;
+}
+
+/* Número grande */
+.aniv-numero {
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
+  font-size: clamp(5rem, 18vw, 9rem);
+  color: #fff;
+  line-height: 1;
+  text-shadow: 0 6px 30px rgba(0, 0, 0, 0.18);
+  animation: fadeDown 0.5s 0.1s ease both, anivPulse 2.5s 0.8s ease-in-out infinite;
+}
+@keyframes anivPulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.03); }
+}
+
+/* Unidade (dias / meses / anos) */
+.aniv-unidade {
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: clamp(1rem, 3.5vw, 1.6rem);
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 4px;
+  margin-bottom: 24px;
+  animation: fadeDown 0.5s 0.15s ease both;
+}
+
+/* Caixa da mensagem */
+.aniv-msg {
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 22px;
+  padding: 22px 26px;
+  max-width: 430px;
+  width: 100%;
+  font-family: "Quicksand", sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  line-height: 1.8;
+  margin-bottom: 26px;
+  animation: fadeDown 0.5s 0.2s ease both;
+  text-align: left;
+}
+
+/* Botão fechar */
+.aniv-close {
+  background: rgba(255, 255, 255, 0.22);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  border-radius: 50px;
+  padding: 14px 36px;
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  animation: fadeDown 0.5s 0.3s ease both;
+  touch-action: manipulation;
+  min-height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.aniv-close:hover  { background: rgba(255, 255, 255, 0.38); transform: translateY(-2px); }
+.aniv-close:active { transform: scale(0.97); }
+
+@media (max-width: 480px) {
+  .date-card { min-width: 128px; padding: 15px 11px; }
+  .date-num  { font-size: 1.9rem; }
+  .aniv-msg  { padding: 18px 20px; font-size: 0.92rem; }
+}
+
+/* ==================================================
+   AJUSTES VISUAIS FINAIS
+   vídeo maior + datas especiais + espaçamento
+================================================== */
+
+/* Espaçamento geral mais elegante no site */
+.site-inner {
+  gap: 34px;
+}
+
+/* Deixa as divisões mais limpas */
+.sec-div {
+  margin-top: 6px;
+  margin-bottom: 2px;
+  color: var(--text-light);
+  letter-spacing: 0.2px;
+}
+
+/* ================= DATAS ESPECIAIS ================= */
+
+.dates-scroll {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+  gap: 14px;
+  margin-top: -12px;
+}
+
+.date-card {
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 18px;
+
+  padding: 16px 14px;
+  min-height: 92px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+
+  box-shadow: 0 8px 24px rgba(201, 85, 119, 0.12);
+
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.date-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(201, 85, 119, 0.17);
+}
+
+.date-card.destaque {
+  background: rgba(255, 240, 245, 0.92);
+  border-color: rgba(232, 120, 154, 0.35);
+}
+
+.date-name {
+  font-family: "Nunito", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--rose-dark);
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.date-card strong {
+  font-family: "Nunito", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.1;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+.date-card small {
+  margin-top: 5px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-light);
+}
+
+/* ================= PROGRESSO ================= */
+
+.progress-wrap {
+  margin-top: -6px;
+}
+
+/* ================= VÍDEO ================= */
+
+.video-story-wrap {
+  width: 100%;
+  max-width: 390px;
+  margin: -8px auto 0;
+
+  border-radius: 26px;
+  overflow: hidden;
+
+  box-shadow: 0 16px 46px rgba(201, 85, 119, 0.22);
+  background: rgba(249, 200, 216, 0.75);
+
+  border: 1px solid rgba(255, 255, 255, 0.65);
+}
+
+.video-story {
+  width: 100%;
+  height: auto;
+
+  display: block;
+  border-radius: 26px;
+
+  object-fit: contain;
+  background: rgba(249, 200, 216, 0.75);
+}
+
+/* ================= CATEGORIAS ================= */
+
+.cat-grid {
+  gap: 18px;
+}
+
+.cat-card {
+  padding: 24px 20px;
+  border-radius: 24px;
+  min-height: 260px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.cat-card h2 {
+  font-size: 1.18rem;
+  margin-bottom: 18px;
+}
+
+.cat-btn {
+  min-height: 50px;
+  margin: 8px 0;
+  border-radius: 15px;
+}
+
+/* ================= BOTÃO DE MÚSICA ================= */
+
+.musica-botoes {
+  margin-top: -8px;
+  margin-bottom: -4px;
+}
+
+/* ================= RESPONSIVO ================= */
+
+@media (max-width: 600px) {
+  .site-inner {
+    gap: 28px;
+  }
+
+  .dates-scroll {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .date-card {
+    min-height: 88px;
+    padding: 14px 10px;
+  }
+
+  .video-story-wrap {
+    max-width: 92vw;
+    border-radius: 24px;
+  }
+
+  .video-story {
+    border-radius: 24px;
+  }
+
+  .cat-card {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 380px) {
+  .dates-scroll {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* AJUSTES DA TELA DE LOGIN */
+
+.login-card {
+  max-width: 400px;
+  padding: 56px 46px;
+}
+
+.couple-photo {
+  width: 165px;
+  height: 165px;
+}
+
+.login-sub {
+  margin-top: 16px;
+  font-size: 0.78rem;
+  color: var(--text-light);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+@media (max-width: 600px) {
+  .login-card,
+  .counter-box,
+  .cat-card,
+  .history-item,
+  .date-card {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .blob {
+    filter: blur(60px);
+  }
 }

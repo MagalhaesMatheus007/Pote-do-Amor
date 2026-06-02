@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Gerador de Ícones — Pote do Amor</title>
+  <style>
+    body { font-family: sans-serif; background: #fff0f4; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; gap: 24px; }
+    h1 { color: #c95577; font-size: 1.4rem; }
+    p  { color: #8c566a; font-size: .95rem; text-align: center; max-width: 400px; }
+    canvas { border-radius: 22px; box-shadow: 0 8px 24px rgba(201,85,119,.25); }
+    .btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    button {
+      background: linear-gradient(135deg, #f09ab5, #c95577);
+      color: #fff; border: none; border-radius: 50px;
+      padding: 12px 28px; font-size: 1rem; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(201,85,119,.3);
+    }
+    button:hover { opacity: .9; }
+  </style>
+</head>
+<body>
+  <h1>Gerador de Ícones</h1>
+  <p>Clique nos botões para baixar os ícones do Pote do Amor e colocar na pasta do projeto.</p>
+  <canvas id="cv" width="512" height="512"></canvas>
+  <div class="btns">
+    <button onclick="baixar(192)">Baixar icon-192.png</button>
+    <button onclick="baixar(512)">Baixar icon-512.png</button>
+  </div>
+
+  <script>
+    const cv  = document.getElementById('cv');
+    const ctx = cv.getContext('2d');
+
+    function desenhar(size) {
+      cv.width  = size;
+      cv.height = size;
+      const s   = size;
+
+      // Fundo gradiente rosa
+      const grad = ctx.createLinearGradient(0, 0, s, s);
+      grad.addColorStop(0, '#f9c8d8');
+      grad.addColorStop(1, '#c95577');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.roundRect(0, 0, s, s, s * 0.22);
+      ctx.fill();
+
+      // Coração branco centralizado
+      const cx = s / 2;
+      const cy = s / 2 - s * 0.04;
+      const r  = s * 0.27;
+
+      ctx.fillStyle = 'rgba(255,255,255,0.92)';
+      ctx.beginPath();
+      ctx.moveTo(cx, cy + r * 0.9);
+
+      // left curve
+      ctx.bezierCurveTo(
+        cx - r * 1.6, cy + r * 0.3,
+        cx - r * 1.6, cy - r * 0.9,
+        cx,           cy - r * 0.2
+      );
+      // right curve
+      ctx.bezierCurveTo(
+        cx + r * 1.6, cy - r * 0.9,
+        cx + r * 1.6, cy + r * 0.3,
+        cx,           cy + r * 0.9
+      );
+      ctx.fill();
+
+      // Texto pequeno abaixo
+      ctx.fillStyle = 'rgba(255,255,255,0.75)';
+      ctx.font      = `bold ${s * 0.09}px Quicksand, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillText('pote do amor', cx, cy + r * 1.65);
+    }
+
+    // Preview em 512
+    desenhar(512);
+
+    function baixar(size) {
+      desenhar(size);
+      const a = document.createElement('a');
+      a.download = `icon-${size}.png`;
+      a.href     = cv.toDataURL('image/png');
+      a.click();
+      // Redraw 512 for preview
+      setTimeout(() => desenhar(512), 200);
+    }
+  </script>
+</body>
+</html>

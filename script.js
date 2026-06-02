@@ -24,9 +24,8 @@ let wowInterval = null;
 
 const SWIPE_THRESHOLD = 40;
 const CORES = [
-  "rgba(255,200,209,0.9)",
-  "rgba(255,240,245,0.9)",
-  "rgba(255,255,255,0.9)"
+  "rgba(255, 255, 255, 0.9)",  // branco
+  "rgba(255, 228, 236, 0.85)"  // rosa bem claro
 ];
 
 async function carregarDados() {
@@ -36,6 +35,12 @@ async function carregarDados() {
     CONFIG = { ...CONFIG, ...dados };
   } catch (erro) {
     console.warn("Não foi possível carregar data.json. Usando configuração padrão.", erro);
+  }
+
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => console.log("Service Worker registrado"))
+      .catch(err => console.warn("Service Worker falhou:", err));
   }
 
   iniciarApp();
@@ -57,8 +62,14 @@ function iniciarApp() {
   atualizarContador();
   setInterval(atualizarContador, 60000);
 
-  iniciarParticulasFofo();
+  if (window.innerWidth <= 600) {
+   iniciarParticulasFofo(320); // celular: menos partículas
+  } else {
+    iniciarParticulasFofo(180); // PC: normal
+  }
+
   setInterval(trocarFoto, 6000);
+
 
   renderHistorico();
   verificarCartaFinal();
@@ -120,6 +131,8 @@ function onSiteOpen() {
   renderHistorico();
   verificarCartaFinal();
   wowEffect();
+  renderDatasEspeciais();
+  verificarAniversario();
 }
 
 /* CONTADOR */
@@ -367,11 +380,25 @@ function closeMsg() {
   if (msg) msg.classList.remove("show");
 }
 
+let typeTimer = null;
+
 function typeWriter(el, txt, i = 0, speed = 22) {
-  if (i < txt.length) {
-    el.textContent += txt[i];
-    setTimeout(() => typeWriter(el, txt, i + 1, speed), speed);
+  if (typeTimer) {
+    clearTimeout(typeTimer);
   }
+
+  el.textContent = "";
+
+  function escrever() {
+    if (i < txt.length) {
+      el.textContent += txt[i];
+      i++;
+
+      typeTimer = setTimeout(escrever, speed);
+    }
+  }
+
+  escrever();
 }
 
 /* HISTÓRICO */
@@ -498,8 +525,9 @@ function iniciarParticulasFofo(intervalo = 180) {
     p.style.width = size + "px";
     p.style.height = size + "px";
 
-    const margem = 80;
+    const margem = window.innerWidth <= 600 ? 15 : 80;
     const larguraUtil = Math.max(window.innerWidth - margem * 2, 50);
+
     p.style.left = margem + Math.random() * larguraUtil + "px";
 
     const duracao = Math.random() * 6 + 6;
@@ -529,7 +557,11 @@ function wowEffect() {
 
   if (wowInterval) clearInterval(wowInterval);
 
-  wowInterval = iniciarParticulasFofo(70);
+    if (window.innerWidth <= 600) {
+    wowInterval = iniciarParticulasFofo(180);
+  } else {
+    wowInterval = iniciarParticulasFofo(70);
+  }
 
   setTimeout(() => {
     modoWOW = false;
@@ -565,6 +597,124 @@ function trocarFoto() {
     img.src = CONFIG.fotos[fotoIdx];
     img.classList.remove("fading");
   }, 400);
+}
+
+/* ══ DATAS ESPECIAIS ═════════════════════════════ */
+
+function renderDatasEspeciais() {
+  const wrap = document.getElementById("datesScroll");
+  if (!wrap) return;
+
+  const agora = new Date();
+  agora.setHours(0, 0, 0, 0);
+
+  const todas = [
+    {
+      nome: "Nosso dia",
+      data: CONFIG.dataInicio,
+      anual: true,
+      destaque: true
+    },
+    ...(CONFIG.datasEspeciais || [])
+  ];
+
+  wrap.innerHTML = "";
+
+  todas.forEach(item => {
+    const proxima = calcularProximaData(item.data, item.anual);
+    const diff = Math.ceil((proxima - agora) / 86400000);
+
+    const card = document.createElement("div");
+    card.className = "date-card";
+
+    if (item.destaque) {
+      card.classList.add("destaque");
+    }
+
+    card.innerHTML = `
+      <span class="date-name">${item.nome}</span>
+      <strong>${diff === 0 ? "é hoje!" : diff + " dias"}</strong>
+      <small>${formatarData(proxima)}</small>
+    `;
+
+    wrap.appendChild(card);
+  });
+}
+
+function calcularProximaData(dataTexto, anual) {
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+
+  const data = new Date(dataTexto + "T00:00:00");
+
+  if (!anual) {
+    return data;
+  }
+
+  let proxima = new Date(
+    hoje.getFullYear(),
+    data.getMonth(),
+    data.getDate()
+  );
+
+  if (proxima < hoje) {
+    proxima = new Date(
+      hoje.getFullYear() + 1,
+      data.getMonth(),
+      data.getDate()
+    );
+  }
+
+  return proxima;
+}
+
+function formatarData(data) {
+  return data.toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit"
+  });
+}
+
+/* ══ TELA DE ANIVERSÁRIO ═════════════════════════ */
+
+function verificarAniversario() {
+  const hojeAtual = new Date();
+  const hoje = `${String(hojeAtual.getMonth() + 1).padStart(2, "0")}-${String(hojeAtual.getDate()).padStart(2, "0")}`;
+
+  const datas = CONFIG.datasEspeciais || [];
+
+  const especialHoje = datas.find(item => {
+    const data = new Date(item.data + "T00:00:00");
+    const mesDia = `${String(data.getMonth() + 1).padStart(2, "0")}-${String(data.getDate()).padStart(2, "0")}`;
+
+    return item.destaque && item.anual && mesDia === hoje;
+  });
+
+  if (especialHoje) {
+    abrirAniversario(especialHoje);
+  }
+}
+
+function abrirAniversario(item) {
+  const tela = document.getElementById("aniversarioScreen");
+  const badge = document.getElementById("anivBadge");
+  const numero = document.getElementById("anivNumero");
+  const unidade = document.getElementById("anivUnidade");
+  const msg = document.getElementById("anivMsg");
+
+  if (!tela || !badge || !numero || !unidade || !msg) return;
+
+  badge.textContent = item.nome;
+  numero.textContent = "♥";
+  unidade.textContent = "dia especial";
+  msg.textContent = CONFIG.mensagemAniversario || "Hoje é um dia muito especial. Eu te amo muito.";
+
+  tela.classList.add("show");
+}
+
+function fecharAniversario() {
+  const tela = document.getElementById("aniversarioScreen");
+  if (tela) tela.classList.remove("show");
 }
 
 carregarDados();
