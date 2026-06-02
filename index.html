@@ -42,7 +42,7 @@
 
       <p class="login-question">
         Mas antes disso...<br>
-        Quando foi nosso primeiro beijo?
+        Quando foi nosso primeiro beijo???
       </p>
 
       <input
@@ -74,10 +74,28 @@
         </div>
       </section>
 
-      <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
-        <span class="music-dot"></span>
-        <span id="musicLabel">tocar nossa música</span>
-      </button>
+      <div class="musica-botoes">
+
+        <button
+          id="musicBtn"
+          class="btn-musica"
+          onclick="toggleMusic()">
+
+          <span id="musicLabel">tocar musiquinha</span>
+
+        </button>
+
+       <button
+          id="restartMusicBtn"
+          class="btn-musica escondido"
+          onclick="reiniciarMusica()">
+
+          recomeçar
+
+        </button>
+
+      </div>
+      
       <audio id="audio" src="musica.mp3" loop></audio>
 
       <section class="progress-wrap">
@@ -91,17 +109,12 @@
         </div>
       </section>
 
-      <div class="sec-div">nossa história em fotos</div>
+      <div class="sec-div">um pouquinho de nós...</div>
 
-      <section class="gallery-wrap" id="galleryWrap">
-        <div class="swipe-hint" id="swipeHint">deslize para navegar</div>
-
-        <div class="gallery-arrows">
-          <button class="gallery-arr" onclick="galleryMove(-1)" aria-label="foto anterior">&#8249;</button>
-          <button class="gallery-arr" onclick="galleryMove(1)" aria-label="próxima foto">&#8250;</button>
-        </div>
-
-        <div class="gallery-dots" id="galleryDots"></div>
+      <section class="video-story-wrap">
+        <video class="video-story" autoplay muted loop playsinline>
+         <source src="nossa-historia.mp4" type="video/mp4">
+        </video>
       </section>
 
       <div class="sec-div">como você está se sentindo?</div>
@@ -124,7 +137,7 @@
         </div>
 
         <div class="cat-card">
-          <h2>A gente</h2>
+          <h2>Nós</h2>
           <button class="cat-btn" onclick="openMsg('saudade')">saudade</button>
           <button class="cat-btn" onclick="openMsg('lembrando')">lembrando de nós</button>
           <button class="cat-btn" onclick="openMsg('teamo')">te amo</button>

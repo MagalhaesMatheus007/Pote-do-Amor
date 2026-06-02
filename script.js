@@ -120,7 +120,6 @@ function onSiteOpen() {
   renderHistorico();
   verificarCartaFinal();
   wowEffect();
-  buildGallery();
 }
 
 /* CONTADOR */
@@ -408,18 +407,43 @@ function toggleMusic() {
   const audio = document.getElementById("audio");
   const btn = document.getElementById("musicBtn");
   const label = document.getElementById("musicLabel");
+  const restartBtn = document.getElementById("restartMusicBtn");
 
-  if (!audio || !btn || !label) return;
+  if (!audio || !btn || !label || !restartBtn) return;
 
   if (audio.paused) {
     audio.play().catch(() => showToast("adicione o arquivo musica.mp3"));
+
     btn.classList.add("playing");
-    label.textContent = "pausar música";
+    restartBtn.classList.remove("escondido");
+    restartBtn.classList.add("playing");
+
+    label.textContent = "pausar musiquinha";
   } else {
     audio.pause();
+
     btn.classList.remove("playing");
-    label.textContent = "tocar nossa música";
+
+    label.textContent = "tocar musiquinha";
   }
+}
+
+function reiniciarMusica() {
+  const audio = document.getElementById("audio");
+  const btn = document.getElementById("musicBtn");
+  const label = document.getElementById("musicLabel");
+  const restartBtn = document.getElementById("restartMusicBtn");
+
+  if (!audio || !btn || !label || !restartBtn) return;
+
+  audio.currentTime = 0;
+  audio.play().catch(() => showToast("adicione o arquivo musica.mp3"));
+
+  btn.classList.add("playing");
+  restartBtn.classList.remove("escondido");
+  restartBtn.classList.add("playing");
+
+  label.textContent = "pausar musiquinha";
 }
 
 /* SEGREDINHO */

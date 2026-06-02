@@ -1171,3 +1171,76 @@ body {
     height: 145px;
   }
 }
+
+.video-story-wrap {
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px var(--shadow);
+  background: #f9c8d8;
+}
+
+
+.video-story {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 22px;
+  max-height: 520px;
+  object-fit: cover;
+}
+
+.musica-botoes {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-musica {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  background: rgba(255, 240, 245, 0.95);
+  backdrop-filter: blur(10px);
+
+  border: 1.5px solid var(--rose);
+  border-radius: 50px;
+
+  padding: 13px 26px;
+
+  font-family: "Quicksand", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  color: var(--rose-dark);
+
+  cursor: pointer;
+  transition: all 0.2s;
+
+  box-shadow: 0 4px 16px var(--shadow);
+  min-height: 52px;
+}
+
+.btn-musica:hover {
+  background: rgba(255, 228, 236, 1);
+  transform: translateY(-1px);
+}
+
+.btn-musica:active {
+  transform: scale(0.97);
+}
+
+.btn-musica.playing {
+  color: var(--rose-dark);
+  border-color: var(--rose);
+  background: rgba(255, 240, 245, 0.95);
+}
+
+.escondido {
+  display: none !important;
+}
