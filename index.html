@@ -12,8 +12,8 @@
   <meta name="apple-mobile-web-app-title" content="Pote do Amor">
 
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="icon-192.png">
-  <link rel="icon" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192-v2.png">
+  <link rel="icon" href="icon-192-v2.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -135,11 +135,14 @@
         </video>
       </section>
 
-      <div class="sec-div">como você está se sentindo?</div>
+      <div class="sec-div">abra quando precisar de...</div>
+      <p class="open-note">
+        escolha o que seu coração precisa hoje e abre uma cartinha minha.
+      </p>
 
       <section class="cat-grid">
         <div class="cat-card">
-          <h2>Emoções</h2>
+          <h2>Carinho</h2>
           <button class="cat-btn" onclick="openMsg('triste')">triste</button>
           <button class="cat-btn" onclick="openMsg('feliz')">feliz</button>
           <button class="cat-btn" onclick="openMsg('medo')">medo</button>
@@ -169,13 +172,62 @@
         <div class="msg-text" id="msgText"></div>
       </section>
 
-      <section class="final-letter" id="finalLetter">
-        <h2>Uma cartinha especial</h2>
+     <section class="final-letter" id="finalLetter">
+
+        <h2>uma cartinha especial</h2>
+
         <p>
-          Se você chegou até aqui, é porque abriu cada pedacinho disso com muito carinho.
-          E isso só me faz ter ainda mais certeza do quanto você é especial pra mim.
-          Obrigado por existir, por ser você, e por fazer meus dias mais leves, mais bonitos e mais cheios de amor.
+          Essa é a última cartinha de hoje, mas talvez seja a que eu mais queria que você lesse com calma.
+          <br><br>
+
+          Se você chegou até aqui, é porque abriu cada pedacinho desse cantinho que eu fiz pensando em você.
+          E eu queria terminar com algumas palavras que vêm de um lugar muito sincero dentro de mim.
+          <br><br>
+
+          Desde que você chegou, muita coisa em mim mudou de um jeito bonito.
+          Você mudou a forma como eu enxergo o mundo, a vida, o amor e até o meu próprio futuro.
+          Com você, as coisas parecem ter mais cor, mais calma e mais sentido.
+          <br><br>
+
+          Você me faz querer ser melhor.
+          Melhor como pessoa, melhor como homem, melhor para mim e também para nós.
+          Quando eu penso no futuro, eu penso em crescer, construir, amadurecer e viver coisas bonitas.
+          E, de verdade, é muito difícil imaginar tudo isso sem você fazendo parte.
+          <br><br>
+
+          Acho que uma das coisas mais bonitas sobre você é que você consegue enxergar o bem nas pessoas.
+          E comigo não foi diferente.
+          Em muitos momentos, você enxergou algo bom em mim quando talvez eu mesmo não estivesse conseguindo ver.
+          Isso me marcou de um jeito que eu nunca vou esquecer.
+          <br><br>
+
+          Você foi luz em muitos dias meus.
+          Foi carinho, paz, cuidado e presença.
+          Você deixou minha vida mais leve sem precisar fazer esforço, só sendo você.
+          E eu acho que todo mundo deveria ter a sorte de conhecer alguém tão especial assim pelo menos uma vez na vida.
+          <br><br>
+
+          Eu não quero escrever isso como se fosse uma despedida ou uma promessa exagerada.
+          Quero escrever como uma verdade simples: você é muito importante pra mim.
+          Você ocupa um lugar no meu coração que ninguém mais ocupa.
+          Você é meu lugar favorito, minha saudade boa e uma das partes mais bonitas da minha história.
+          <br><br>
+
+          E se a nossa história fosse como um daqueles filmes de romance que você ama,
+          eu diria que você foi a carta que chegou na hora certa.
+          Só que, com você, eu não quero só uma cena bonita.
+          Eu quero continuar escrevendo a nossa história, um dia de cada vez.
+          <br><br>
+
+          Obrigado por ser você.
+          Obrigado por me fazer enxergar a vida de um jeito mais bonito.
+          Obrigado por existir na minha vida.
+          Eu te amo muito.
         </p>
+
+        <div class="letter-signature">
+          com amor, hoje e em todos os dias 
+        </div>
       </section>
 
       <div class="sec-div">mensagens que você já abriu</div>
@@ -214,6 +266,7 @@
 
     <button class="egg-close" onclick="closeEgg()">Fechar</button>
   </section>
+
 
   <div class="toast" id="toast"></div>
 

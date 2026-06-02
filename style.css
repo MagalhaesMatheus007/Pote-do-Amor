@@ -875,6 +875,7 @@ body {
   padding: 30px 26px;
   box-shadow: 0 12px 40px var(--shadow);
   text-align: center;
+  padding-top: 56px;
 }
 
 .final-letter.show {
@@ -894,6 +895,7 @@ body {
   color: rgba(255, 255, 255, 0.92);
   line-height: 1.65;
   font-size: 0.95rem;
+   max-width: 520px;
 }
 
 /* DIVISOR */
@@ -1697,5 +1699,204 @@ body {
 
   .blob {
     filter: blur(60px);
+  }
+}
+
+/* ================= CARTINHA FINAL ESPECIAL - ROSA ================= */
+
+.final-letter {
+  display: none;
+  position: relative;
+
+  width: 100%;
+  max-width: 680px;
+
+  margin: 48px auto 32px;
+  padding: 54px 42px 38px;
+
+  border-radius: 26px;
+
+  background: linear-gradient(
+    135deg,
+    #f3a9c0 0%,
+    var(--rose) 55%,
+    var(--rose-dark) 100%
+  );
+
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+
+  box-shadow:
+    0 20px 50px rgba(201, 85, 119, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+
+  text-align: center;
+  overflow: hidden;
+}
+
+.final-letter.show {
+  display: block;
+  animation: letterAppear 0.7s ease both;
+}
+
+/* linhas sutis de papel */s
+.final-letter::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: repeating-linear-gradient(
+    to bottom,s
+    transparent 0px,
+    transparent 42px,
+    rgba(255, 255, 255, 0.08) 43px
+  );
+
+  pointer-events: none;
+}
+
+/* dobrinha delicada no canto */
+.final-letter::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  width: 78px;
+  height: 78px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.35),
+    rgba(255, 255, 255, 0.08)
+  );
+
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+  opacity: 0.95;
+}
+
+/* selo pequeno */
+.letter-stamp {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  z-index: 2;
+
+  padding: 8px 13px;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+
+  color: var(--rose-dark);
+
+  font-family: "Nunito", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: none;
+
+  transform: rotate(5deg);
+  box-shadow: 0 8px 20px rgba(90, 45, 58, 0.12);
+}
+
+.letter-heart {
+  position: relative;
+  z-index: 1;
+
+  font-size: 1.6rem;
+  color: rgba(255, 255, 255, 0.92);
+  margin-bottom: 8px;
+}
+
+.final-letter h2 {
+  position: relative;
+  z-index: 1;
+
+  margin: 0 0 28px;
+
+  font-family: "Nunito", sans-serif;
+  font-size: clamp(1.55rem, 4vw, 2rem);
+  font-weight: 800;
+
+  color: #ffffff;
+  text-transform: lowercase;
+}
+
+.final-letter p {
+  position: relative;
+  z-index: 1;
+
+  margin: 0 auto;
+  max-width: 560px;
+
+  font-family: "Quicksand", sans-serif;
+  font-size: 1rem;
+  line-height: 2;
+  font-weight: 600;
+
+  color: rgba(255, 255, 255, 0.94);
+  text-align: left;
+}
+
+.letter-signature {
+  position: relative;
+  z-index: 1;
+
+  margin-top: 30px;
+
+  font-size: 0.92rem;
+  font-style: italic;
+  font-weight: 600;
+
+  color: rgba(255, 255, 255, 0.82);
+  text-align: right;
+}
+
+@keyframes letterAppear {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+    filter: blur(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* responsivo */
+@media (max-width: 600px) {
+  .final-letter {
+    margin: 36px auto 24px;
+    padding: 46px 24px 30px;
+    border-radius: 24px;
+  }
+
+  .letter-stamp {
+    top: 14px;
+    right: 14px;
+    font-size: 0.55rem;
+    padding: 7px 10px;
+  }
+
+  .letter-heart {
+    font-size: 1.45rem;
+  }
+
+  .final-letter h2 {
+    font-size: 1.45rem;
+    margin-bottom: 24px;
+  }
+
+  .final-letter p {
+    font-size: 0.92rem;
+    line-height: 1.9;
+  }
+
+  .letter-signature {
+    font-size: 0.85rem;
+    text-align: center;
   }
 }
