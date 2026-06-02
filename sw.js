@@ -1,4 +1,4 @@
-const CACHE = 'pote-amor-v1';
+const CACHE = 'pote-amor-v2';
 
 const ASSETS = [
   './',
