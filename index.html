@@ -17,7 +17,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
 </head>
@@ -230,11 +230,30 @@
         </div>
       </section>
 
-      <div class="sec-div">mensagens que você já abriu</div>
+      <section class="history-box">
+        <div class="history-head">
+          <div>
+            <h2>arquivo de cartinhas</h2>
+          </div>
 
-      <section class="history-list" id="histList">
-        <p class="history-empty">Ainda não tem nenhuma... escolha uma categoria acima!</p>
+          <div class="history-count">
+            <strong id="histCount">0</strong>
+            <span>abertas</span>
+          </div>
+        </div>
+
+        <p class="history-desc">
+          cartinhas abertas ficam guardadas aqui.
+        </p>
+
+        <section class="history-list" id="histList">
+          <div class="history-empty-card">
+            <p>Ainda não tem nenhuma cartinha aberta.</p>
+            <small>Escolha uma categoria acima para começar.</small>
+          </div>
+        </section>
       </section>
+
     </section>
   </main>
 
@@ -248,7 +267,7 @@
 
     <div class="aniv-msg" id="anivMsg"></div>
 
-    <button class="aniv-close" onclick="fecharAniversario()">com amor ♥</button>
+    <button class="aniv-close" onclick="fecharAniversario()">com amor</button>
   </section>
 
   <!-- SEGREDINHO -->

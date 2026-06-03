@@ -360,10 +360,15 @@ function openMsg(tipo) {
   disp.scrollIntoView({ behavior: "smooth", block: "center" });
 
   historico.unshift({
-    tipo,
-    msg,
-    hora: new Date().toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })
-  });
+  tipo,
+  msg,
+  data: dataLocal(),
+  timestamp: Date.now(),
+  hora: new Date().toLocaleTimeString("pt-BR", {
+    hour: "2-digit",
+    minute: "2-digit"
+  })
+});
 
   if (historico.length > 30) historico = historico.slice(0, 30);
 
@@ -404,19 +409,127 @@ function typeWriter(el, txt, i = 0, speed = 22) {
 /* HISTÓRICO */
 function renderHistorico() {
   const list = document.getElementById("histList");
+  const count = document.getElementById("histCount");
+
   if (!list) return;
 
+  if (count) {
+    count.textContent = historico.length;
+  }
+
+  const nomesCategorias = {
+    triste: "triste",
+    feliz: "feliz",
+    medo: "medo",
+    carente: "carente",
+    desanimada: "desanimada",
+    forca: "força",
+    motivacao: "motivação",
+    insegura: "insegura",
+    saudade: "saudade",
+    lembrando: "lembrando de nós",
+    teamo: "te amo",
+    orgulho: "orgulho de você"
+  };
+
   if (historico.length === 0) {
-    list.innerHTML = '<p class="history-empty">Ainda não tem nenhuma... escolha uma categoria acima!</p>';
+    list.innerHTML = `
+      <div class="history-empty-card">
+        <p>Ainda não tem nenhuma cartinha aberta.</p>
+        <small>Escolha uma categoria acima para começar.</small>
+      </div>
+    `;
     return;
   }
 
-  list.innerHTML = historico.map(h => `
-    <div class="history-item">
-      <div class="history-cat">${h.tipo} · ${h.hora || ""}</div>
-      <div class="history-msg">${h.msg}</div>
-    </div>
-  `).join("");
+  const grupos = agruparHistoricoPorDia(historico);
+
+  list.innerHTML = grupos.map(([data, itens]) => {
+    const qtd = itens.length;
+    const textoQtd = qtd === 1 ? "1 cartinha" : `${qtd} cartinhas`;
+
+    return `
+      <div class="history-day">
+        <div class="history-day-head">
+          <span>${rotuloDia(data)}</span>
+        </div>
+
+        <div class="history-day-list">
+          ${itens.map(h => `
+            <article class="history-item">
+              <div class="history-top">
+                <span class="history-cat">${nomesCategorias[h.tipo] || h.tipo}</span>
+                <span class="history-time">${h.hora || ""}</span>
+              </div>
+
+              <p class="history-msg">${escapeHTML(h.msg)}</p>
+            </article>
+          `).join("")}
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function agruparHistoricoPorDia(lista) {
+  const grupos = {};
+
+  lista.forEach(item => {
+    const chave = item.data || "antigas";
+
+    if (!grupos[chave]) {
+      grupos[chave] = [];
+    }
+
+    grupos[chave].push(item);
+  });
+
+  return Object.entries(grupos).sort(([dataA], [dataB]) => {
+    if (dataA === "antigas") return 1;
+    if (dataB === "antigas") return -1;
+
+    return new Date(dataB + "T00:00:00") - new Date(dataA + "T00:00:00");
+  });
+}
+
+function dataLocal(date = new Date()) {
+  const ano = date.getFullYear();
+  const mes = String(date.getMonth() + 1).padStart(2, "0");
+  const dia = String(date.getDate()).padStart(2, "0");
+
+  return `${ano}-${mes}-${dia}`;
+}
+
+function rotuloDia(data) {
+  if (data === "antigas") {
+    return "cartinhas antigas";
+  }
+
+  const hojeData = dataLocal();
+
+  const ontemDate = new Date();
+  ontemDate.setDate(ontemDate.getDate() - 1);
+  const ontemData = dataLocal(ontemDate);
+
+  if (data === hojeData) return "hoje";
+  if (data === ontemData) return "ontem";
+
+  const d = new Date(data + "T00:00:00");
+
+  return d.toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+  });
+}
+
+function escapeHTML(texto) {
+  return String(texto)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 /* CARTA FINAL */
