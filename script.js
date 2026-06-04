@@ -34,15 +34,10 @@ async function carregarDados() {
     const dados = await resposta.json();
     CONFIG = { ...CONFIG, ...dados };
   } catch (erro) {
-    console.warn("Não foi possível carregar data.json. Usando configuração padrão.", erro);
+    console.warn("Não foi possível carregar data.json.", erro);
   }
 
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("./sw.js")
-      .then(() => console.log("Service Worker registrado"))
-      .catch(err => console.warn("Service Worker falhou:", err));
-  }
-
+  registrarSW();
   iniciarApp();
 }
 
@@ -73,6 +68,7 @@ function iniciarApp() {
 
   renderHistorico();
   verificarCartaFinal();
+  verificarInstallIOS();
 }
 
 function hoje() {
@@ -828,6 +824,134 @@ function abrirAniversario(item) {
 function fecharAniversario() {
   const tela = document.getElementById("aniversarioScreen");
   if (tela) tela.classList.remove("show");
+}
+
+/* =========================
+   PWA / INSTALAÇÃO DO APP
+========================= */
+
+let deferredPrompt = null;
+let novoWorker = null;
+
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredPrompt = event;
+
+  if (localStorage.getItem("install_pote_dispensado") === "true") return;
+
+  const banner = document.getElementById("installBanner");
+  if (banner) {
+    setTimeout(() => {
+      banner.classList.add("show");
+    }, 1800);
+  }
+});
+
+function instalarApp() {
+  const banner = document.getElementById("installBanner");
+
+  if (!deferredPrompt) {
+    showToast("se não aparecer, use adicionar à tela inicial");
+    return;
+  }
+
+  deferredPrompt.prompt();
+
+  deferredPrompt.userChoice.then((choiceResult) => {
+    if (choiceResult.outcome === "accepted") {
+      showToast("app instalado com carinho");
+    }
+
+    deferredPrompt = null;
+
+    if (banner) {
+      banner.classList.remove("show");
+    }
+  });
+}
+
+function dispensarInstall() {
+  localStorage.setItem("install_pote_dispensado", "true");
+
+  const banner = document.getElementById("installBanner");
+  if (banner) {
+    banner.classList.remove("show");
+  }
+}
+
+function verificarInstallIOS() {
+  const isIOS = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+  const isStandalone =
+    window.navigator.standalone === true ||
+    window.matchMedia("(display-mode: standalone)").matches;
+
+  if (!isIOS || isStandalone) return;
+  if (localStorage.getItem("ios_install_pote_fechado") === "true") return;
+
+  const banner = document.getElementById("iosBanner");
+  if (banner) {
+    setTimeout(() => {
+      banner.classList.add("show");
+    }, 2200);
+  }
+}
+
+function fecharIos() {
+  localStorage.setItem("ios_install_pote_fechado", "true");
+
+  const banner = document.getElementById("iosBanner");
+  if (banner) {
+    banner.classList.remove("show");
+  }
+}
+
+function registrarSW() {
+  if (!("serviceWorker" in navigator)) return;
+
+  navigator.serviceWorker.register("./sw.js")
+    .then((registration) => {
+      console.log("Service Worker registrado");
+
+      registration.addEventListener("updatefound", () => {
+        novoWorker = registration.installing;
+
+        if (!novoWorker) return;
+
+        novoWorker.addEventListener("statechange", () => {
+          if (
+            novoWorker.state === "installed" &&
+            navigator.serviceWorker.controller
+          ) {
+            mostrarBannerAtualizacao();
+          }
+        });
+      });
+    })
+    .catch((err) => {
+      console.warn("Service Worker falhou:", err);
+    });
+
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    window.location.reload();
+  });
+}
+
+function mostrarBannerAtualizacao() {
+  const banner = document.getElementById("updateBanner");
+  if (banner) {
+    banner.classList.add("show");
+  }
+}
+
+function atualizarApp() {
+  if (!novoWorker) {
+    window.location.reload();
+    return;
+  }
+
+  novoWorker.postMessage({
+    type: "SKIP_WAITING"
+  });
 }
 
 carregarDados();

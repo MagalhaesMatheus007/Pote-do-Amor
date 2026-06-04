@@ -289,6 +289,30 @@
 
   <div class="toast" id="toast"></div>
 
+  <!-- BANNER: Instalar como app -->
+  <div id="installBanner" class="install-banner">
+    <div class="install-info">
+      <strong>Instalar no celular</strong>
+      <span>Adicione à tela inicial como app</span>
+    </div>
+    <div class="install-btns">
+      <button onclick="instalarApp()" class="install-ok">Instalar</button>
+      <button onclick="dispensarInstall()" class="install-x" aria-label="fechar">&#x2715;</button>
+    </div>
+  </div>
+
+  <!-- BANNER: iOS — instrução manual (aparece só no Safari iOS) -->
+  <div id="iosBanner" class="ios-banner">
+    <button onclick="fecharIos()" class="ios-close" aria-label="fechar">&#x2715;</button>
+    <p>Para instalar no iPhone: toque em <strong>Compartilhar</strong> e depois em <strong>Adicionar à Tela Inicial</strong></p>
+  </div>
+
+  <!-- BANNER: Nova versão disponível -->
+  <div id="updateBanner" class="update-banner">
+    <span>Nova versão disponível</span>
+    <button onclick="atualizarApp()">Atualizar</button>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>

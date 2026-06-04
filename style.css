@@ -2192,3 +2192,204 @@ body {
     font-size: 0.84rem;
   }
 }
+
+/* ══════════════════════════════════════════════
+   ADICIONE NO FINAL do style.css
+══════════════════════════════════════════════ */
+
+
+/* ══ BANNER: INSTALAR APP ═════════════════ */
+
+.install-banner {
+  position: fixed;
+  bottom: max(20px, calc(14px + env(safe-area-inset-bottom)));
+  left: 50%;
+  transform: translateX(-50%) translateY(120px);
+  z-index: 8000;
+
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(240, 154, 181, 0.4);
+  border-radius: 22px;
+  padding: 16px 18px;
+  width: calc(100% - 32px);
+  max-width: 400px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+
+  box-shadow: 0 8px 40px rgba(201, 85, 119, 0.22);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.install-banner.show {
+  transform: translateX(-50%) translateY(0);
+  pointer-events: all;
+  opacity: 1;
+}
+
+.install-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.install-info strong {
+  font-family: "Nunito", sans-serif;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--rose-dark);
+}
+
+.install-info span {
+  font-size: 0.78rem;
+  color: var(--text-light);
+}
+
+.install-btns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.install-ok {
+  background: linear-gradient(135deg, var(--rose-mid), var(--rose-dark));
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: 9px 20px;
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 0.18s;
+  white-space: nowrap;
+}
+.install-ok:active { transform: scale(0.96); }
+
+.install-x {
+  background: rgba(232, 120, 154, 0.1);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 0.85rem;
+  color: var(--text-light);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+  transition: background 0.2s;
+}
+.install-x:hover { background: rgba(232, 120, 154, 0.2); }
+
+
+/* ══ BANNER: iOS ══════════════════════════ */
+
+.ios-banner {
+  position: fixed;
+  bottom: max(20px, calc(14px + env(safe-area-inset-bottom)));
+  left: 50%;
+  transform: translateX(-50%) translateY(150px);
+  z-index: 8000;
+
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(240, 154, 181, 0.35);
+  border-radius: 20px;
+  padding: 18px 40px 18px 20px;
+  width: calc(100% - 32px);
+  max-width: 400px;
+
+  box-shadow: 0 8px 40px rgba(201, 85, 119, 0.2);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.ios-banner.show {
+  transform: translateX(-50%) translateY(0);
+  pointer-events: all;
+  opacity: 1;
+}
+
+.ios-banner p {
+  font-size: 0.85rem;
+  color: var(--text-mid);
+  line-height: 1.55;
+}
+
+.ios-banner strong { color: var(--rose-dark); }
+
+.ios-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  color: var(--text-light);
+  cursor: pointer;
+  touch-action: manipulation;
+  padding: 4px;
+}
+
+
+/* ══ BANNER: ATUALIZAÇÃO ══════════════════ */
+
+.update-banner {
+  position: fixed;
+  top: max(14px, calc(10px + env(safe-area-inset-top)));
+  left: 50%;
+  transform: translateX(-50%) translateY(-80px);
+  z-index: 8500;
+
+  background: var(--rose-dark);
+  border-radius: 50px;
+  padding: 10px 16px 10px 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  box-shadow: 0 6px 24px rgba(201, 85, 119, 0.4);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  opacity: 0;
+  white-space: nowrap;
+}
+
+.update-banner.show {
+  transform: translateX(-50%) translateY(0);
+  pointer-events: all;
+  opacity: 1;
+}
+
+.update-banner span {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #fff;
+}
+
+.update-banner button {
+  background: rgba(255, 255, 255, 0.25);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  border-radius: 50px;
+  padding: 6px 16px;
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.2s;
+}
+.update-banner button:hover { background: rgba(255, 255, 255, 0.38); }

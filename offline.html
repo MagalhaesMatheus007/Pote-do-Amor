@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Pote do Amor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --rose-dark: #c95577;
+      --rose-mid:  #f09ab5;
+      --blush:     #fff0f4;
+      --petal:     #fac8d8;
+      --text:      #5a2d3a;
+      --text-light:#b8849a;
+      --shadow:    rgba(201,85,119,.18);
+    }
+
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: var(--blush);
+      color: var(--text);
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 24px;
+      overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Blobs de fundo */
+    #bg { position:fixed; inset:0; z-index:0; pointer-events:none; }
+    .blob { position:absolute; border-radius:50%; filter:blur(90px); opacity:.4; }
+    .b1 { width:500px; height:500px; background:#f5b8cc; top:-180px; left:-130px; }
+    .b2 { width:400px; height:400px; background:#ffd6e3; bottom:-120px; right:-80px; }
+
+    /* Conteúdo */
+    .card {
+      position: relative; z-index:1;
+      background: rgba(255,255,255,.55);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,.6);
+      border-radius: 28px;
+      padding: 44px 36px;
+      max-width: 360px; width:100%;
+      box-shadow: 0 20px 60px var(--shadow);
+      animation: popIn .5s cubic-bezier(.175,.885,.32,1.275) both;
+    }
+    @keyframes popIn {
+      from { opacity:0; transform:scale(.9); }
+      to   { opacity:1; transform:scale(1); }
+    }
+
+    .icon {
+      font-size: 3.5rem;
+      display: block;
+      margin-bottom: 20px;
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { transform:scale(1); }
+      50%      { transform:scale(1.08); }
+    }
+
+    h1 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      color: var(--rose-dark);
+      margin-bottom: 12px;
+      line-height: 1.25;
+    }
+
+    p {
+      font-size: .93rem;
+      color: var(--text-light);
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, var(--rose-mid), var(--rose-dark));
+      color: #fff;
+      border: none; border-radius: 50px;
+      padding: 14px 36px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700; font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 6px 22px var(--shadow);
+      transition: transform .18s, box-shadow .18s;
+      touch-action: manipulation;
+      min-height: 52px;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .btn:hover  { transform:translateY(-2px); box-shadow:0 10px 28px var(--shadow); }
+    .btn:active { transform:scale(.97); }
+
+    /* Partículas leves */
+    .particula {
+      position: fixed; top:-40px; pointer-events:none; z-index:9;
+      border-radius:50%; animation:cairFofo linear forwards;
+    }
+    @keyframes cairFofo {
+      0%   { transform:translateY(0) translateX(0) scale(.8); opacity:0; filter:blur(1px); }
+      10%  { opacity:.6; }
+      100% { transform:translateY(110vh) translateX(-20px) scale(.6); opacity:0; filter:blur(2px); }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="bg">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+  </div>
+
+  <div class="card">
+    <span class="icon">&#10084;</span>
+    <h1>Sem conexão no momento</h1>
+    <p>
+      Parece que você está sem internet agora...<br>
+      Mas calma, o carinho não some com o sinal.
+    </p>
+    <button class="btn" onclick="window.location.reload()">Tentar de novo</button>
+  </div>
+
+  <script>
+    // Partículas suaves
+    const CORES = ['rgba(255,200,209,.8)','rgba(255,240,245,.9)','rgba(255,255,255,.9)'];
+    setInterval(() => {
+      const p = document.createElement('div');
+      p.className = 'particula';
+      const s = Math.random()*8+5;
+      p.style.cssText = `
+        width:${s}px; height:${s}px;
+        left:${Math.random()*100}vw;
+        background:${CORES[Math.floor(Math.random()*3)]};
+        animation-duration:${Math.random()*6+7}s;
+        box-shadow:0 0 8px ${CORES[0]};
+        opacity:${Math.random()*.4+.2};
+      `;
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 13000);
+    }, 300);
+
+    // Volta automático quando a conexão voltar
+    window.addEventListener('online', () => window.location.reload());
+  </script>
+</body>
+</html>
