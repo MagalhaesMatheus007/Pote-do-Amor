@@ -48,11 +48,8 @@ function iniciarApp() {
   const fotoLogin = document.getElementById("couplePhoto");
   if (fotoLogin && CONFIG.fotos?.length) fotoLogin.src = CONFIG.fotos[0];
 
-  if (progresso.dia !== hoje()) {
-    progresso.dia = hoje();
-    progresso.usadas = 0;
-    salvar();
-  }
+  verificarResetDiario();
+  setInterval(verificarResetDiario, 30000);
 
   atualizarContador();
   setInterval(atualizarContador, 60000);
@@ -72,7 +69,24 @@ function iniciarApp() {
 }
 
 function hoje() {
-  return new Date().toISOString().split("T")[0];
+  return dataLocal();
+}
+
+function verificarResetDiario() {
+  const diaAtual = hoje();
+
+  if (progresso.dia !== diaAtual) {
+    progresso.dia = diaAtual;
+    progresso.usadas = 0;
+
+    salvar();
+    atualizarProgresso();
+
+    const finalLetter = document.getElementById("finalLetter");
+    if (finalLetter && !localStorage.getItem("carta_final_lida_pote_amor")) {
+      finalLetter.classList.remove("show");
+    }
+  }
 }
 
 function salvar() {
@@ -318,8 +332,10 @@ function atualizarProgresso() {
 
 /* MENSAGENS */
 function openMsg(tipo) {
+  verificarResetDiario();
+
   if (progresso.usadas >= CONFIG.limite) {
-    showToast("volta amanhã, lindinha");
+    showToast("as próximas cartinhas liberam à meia-noite");
     return;
   }
 
@@ -366,7 +382,7 @@ function openMsg(tipo) {
   })
 });
 
-  if (historico.length > 30) historico = historico.slice(0, 30);
+  if (historico.length > 200) historico = historico.slice(0, 200);
 
   progresso.usadas++;
   salvar();
@@ -444,11 +460,14 @@ function renderHistorico() {
     const qtd = itens.length;
     const textoQtd = qtd === 1 ? "1 cartinha" : `${qtd} cartinhas`;
 
+    const abrirHoje = data === dataLocal() ? "open" : "";
+
     return `
-      <div class="history-day">
-        <div class="history-day-head">
+      <details class="history-day" ${abrirHoje}>
+        <summary class="history-day-head">
           <span>${rotuloDia(data)}</span>
-        </div>
+          <small>${textoQtd}</small>
+        </summary>
 
         <div class="history-day-list">
           ${itens.map(h => `
@@ -462,7 +481,7 @@ function renderHistorico() {
             </article>
           `).join("")}
         </div>
-      </div>
+      </details>
     `;
   }).join("");
 }
@@ -533,9 +552,57 @@ function verificarCartaFinal() {
   const finalLetter = document.getElementById("finalLetter");
   if (!finalLetter) return;
 
-  if (progresso.usadas >= CONFIG.limite) {
+  const cartaJaFoiLida =
+    localStorage.getItem("carta_final_lida_pote_amor") === "true";
+
+  finalLetter.classList.remove("show", "closed");
+
+  // Primeira vez que ela completa as 10 cartinhas
+  if (!cartaJaFoiLida && progresso.usadas >= CONFIG.limite) {
     finalLetter.classList.add("show");
+
+    localStorage.setItem("carta_final_lida_pote_amor", "true");
+
+    setTimeout(() => {
+      finalLetter.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+    }, 350);
+
+    return;
   }
+
+  // Depois da primeira vez, a carta fica guardada/fechada
+  if (cartaJaFoiLida) {
+    finalLetter.classList.add("show", "closed");
+  }
+}
+
+function abrirCartaFinalGuardada() {
+  const finalLetter = document.getElementById("finalLetter");
+  if (!finalLetter) return;
+
+  finalLetter.classList.remove("closed");
+  finalLetter.classList.add("show");
+
+  finalLetter.scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+}
+
+function guardarCartaFinal() {
+  const finalLetter = document.getElementById("finalLetter");
+  if (!finalLetter) return;
+
+  finalLetter.classList.add("closed");
+  finalLetter.classList.add("show");
+
+  finalLetter.scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
 }
 
 /* MÚSICA */
