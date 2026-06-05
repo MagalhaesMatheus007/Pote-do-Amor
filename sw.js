@@ -1,4 +1,4 @@
-const VERSION       = 'v10';
+const VERSION       = 'v13';
 const CACHE_STATIC  = `pote-amor-static-${VERSION}`;
 const CACHE_DYNAMIC = `pote-amor-dynamic-${VERSION}`;
 

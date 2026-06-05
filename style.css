@@ -3404,3 +3404,7 @@ body {
     0 14px 34px rgba(201, 85, 119, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
+
+.final-letter {
+  scroll-margin-top: 24px;
+}

@@ -586,10 +586,12 @@ function abrirCartaFinalGuardada() {
   finalLetter.classList.remove("closed");
   finalLetter.classList.add("show");
 
-  finalLetter.scrollIntoView({
-    behavior: "smooth",
-    block: "center"
-  });
+  setTimeout(() => {
+    finalLetter.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }, 100);
 }
 
 function guardarCartaFinal() {
