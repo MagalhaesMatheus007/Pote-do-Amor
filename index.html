@@ -37,7 +37,10 @@
       <div class="envelope" id="envelope" onclick="toggleEnvelope()">
         <div class="env-body"></div>
         <div class="env-flap"></div>
-        <div class="env-letter">Tem algo especial aqui dentro</div>
+        <div class="env-letter">
+          abre com calma...<br>
+          tem muito de nós aqui dentro
+        </div>
       </div>
     </div>
 
@@ -135,9 +138,9 @@
         </video>
       </section>
 
-      <div class="sec-div">abra quando precisar de...</div>
+      <div class="sec-div">cartinhas para você</div>
       <p class="open-note">
-        escolha o que seu coração precisa hoje e abre uma cartinha minha.
+        abre uma quando quiser sentir um pouquinho de mim por perto.
       </p>
 
       <section class="cat-grid">
@@ -175,15 +178,27 @@
       <section class="final-letter" id="finalLetter">
       
         <button
-          class="final-letter-cover"
+          class="final-letter-cover memory-cover"
           id="finalLetterCover"
           type="button"
           onclick="abrirCartaFinalGuardada()"
+          aria-label="abrir caixinha guardada"
         >
-          <span class="cover-icon">✉</span>
-          <span class="cover-small">cartinha especial</span>
-          <strong>abrir carta guardada</strong>
-          <small>essa cartinha fica aqui para você reler quando quiser</small>
+          <span class="memory-image-wrap" aria-hidden="true">
+            <img
+              src="caixinha-lembrancas.png"
+              alt=""
+              class="memory-box-img"
+            >
+          </span>
+
+          <span class="memory-subtitle">
+            deixei essa cartinha aqui pra você reler sempre que quiser
+          </span>
+
+          <span class="memory-cta">
+            abrir caixinha guardada
+          </span>
         </button>
 
         <div class="final-letter-content">

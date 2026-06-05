@@ -1,4 +1,4 @@
-const VERSION       = 'v7';
+const VERSION       = 'v10';
 const CACHE_STATIC  = `pote-amor-static-${VERSION}`;
 const CACHE_DYNAMIC = `pote-amor-dynamic-${VERSION}`;
 
@@ -12,7 +12,8 @@ const STATIC_ASSETS = [
   './manifest.json',
   './offline.html',
   './icon-192-v2.png',
-  './icon-512-v2.png'
+  './icon-512-v2.png',
+  './caixinha-lembrancas.png'
 ];
 
 /* ── INSTALL ───────────────────────────────── */

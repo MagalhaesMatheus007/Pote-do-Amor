@@ -1738,14 +1738,14 @@ body {
   animation: letterAppear 0.7s ease both;
 }
 
-/* linhas sutis de papel */s
+/* linhas sutis de papel */
 .final-letter::before {
   content: "";
   position: absolute;
   inset: 0;
 
   background: repeating-linear-gradient(
-    to bottom,s
+    to bottom,
     transparent 0px,
     transparent 42px,
     rgba(255, 255, 255, 0.08) 43px
@@ -2710,4 +2710,697 @@ body {
   .history-msg {
     font-size: 0.85rem;
   }
+}
+
+/* ================= CORREÇÃO FINAL - HISTÓRICO SEM BUG DE SCROLL ================= */
+
+.history-box {
+  overflow: visible !important;
+}
+
+.history-list {
+  max-height: none !important;
+  overflow: visible !important;
+  padding-right: 0 !important;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.history-day {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.history-day-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.history-day:not([open]) .history-day-list {
+  display: none !important;
+}
+
+.history-item {
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .history-list {
+    max-height: none !important;
+    overflow: visible !important;
+    gap: 10px;
+  }
+}
+
+/* =====================================================
+   CAIXINHA GUARDADA - VERSÃO LIMPA COM IMAGEM
+   Mantém somente imagem + texto curto + botão bonito.
+===================================================== */
+
+.final-letter.closed {
+  display: block;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  overflow: visible;
+  margin: 10px auto 12px;
+}
+
+.final-letter.closed::before,
+.final-letter.closed::after {
+  display: none !important;
+}
+
+.final-letter.closed .final-letter-content {
+  display: none !important;
+}
+
+.final-letter:not(.closed) .final-letter-cover {
+  display: none !important;
+}
+
+/* O botão inteiro continua clicável, mas sem “quadrado rosa” de fundo */
+.memory-cover {
+  width: 100%;
+  min-height: auto;
+
+  padding: 0;
+  margin: 0 auto;
+
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  cursor: pointer;
+  text-align: center;
+
+  position: relative;
+  overflow: visible;
+
+  font-family: "Quicksand", sans-serif;
+  color: var(--rose-dark);
+
+  transition: transform 0.22s ease;
+}
+
+/* Remove dobras, linhas e efeitos herdados do antigo envelope/card */
+.memory-cover::before,
+.memory-cover::after,
+.final-letter-cover::before,
+.final-letter-cover::after {
+  display: none !important;
+  content: none !important;
+}
+
+.memory-cover:hover {
+  transform: translateY(-2px);
+}
+
+.memory-cover:active {
+  transform: scale(0.985);
+}
+
+/* Imagem da caixinha */
+.memory-image-wrap {
+  width: min(112%, 540px);
+  margin: 0 auto 2px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+  z-index: 2;
+}
+
+.memory-box-img {
+  width: 100%;
+  max-width: 470px;
+  height: auto;
+
+  display: block;
+
+  filter:
+    drop-shadow(0 20px 30px rgba(201, 85, 119, 0.18))
+    saturate(1.03);
+
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Remove elementos que você não curtiu */
+.memory-label,
+.memory-label::before,
+.memory-title,
+.memory-cover strong,
+.memory-cover small,
+.memory-cover strong::after,
+.cover-icon,
+.cover-small {
+  display: none !important;
+}
+
+/* Texto curto abaixo da imagem */
+.memory-subtitle {
+  position: relative;
+  z-index: 3;
+
+  max-width: 380px;
+  margin: -2px auto 0;
+
+  font-family: "Quicksand", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.5;
+
+  color: #9c6378;
+  text-align: center;
+}
+
+/* Botão visual de abrir */
+.memory-cta {
+  position: relative;
+  z-index: 3;
+
+  margin-top: 6px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 245px;
+  min-height: 50px;
+
+  padding: 13px 30px;
+
+  border-radius: 999px;
+
+  background: linear-gradient(135deg, #f09ab5 0%, #c95577 100%);
+  color: #fff;
+
+  font-family: "Nunito", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+
+  box-shadow:
+    0 10px 24px rgba(201, 85, 119, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+.memory-cover:hover .memory-cta {
+  transform: translateY(-2px);
+  filter: brightness(1.03);
+
+  box-shadow:
+    0 14px 30px rgba(201, 85, 119, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+}
+
+.memory-cover:active .memory-cta {
+  transform: scale(0.97);
+}
+
+@media (max-width: 600px) {
+  .memory-cover {
+    gap: 10px;
+  }
+
+  .memory-image-wrap {
+    width: 116%;
+    margin-top: -4px;
+    margin-bottom: 0;
+  }
+
+  .memory-box-img {
+    max-width: 430px;
+  }
+
+  .memory-subtitle {
+    max-width: 310px;
+    font-size: 0.84rem;
+  }
+
+  .memory-cta {
+    min-width: 220px;
+    min-height: 48px;
+    padding: 12px 26px;
+    font-size: 0.87rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .memory-image-wrap {
+    width: 120%;
+  }
+
+  .memory-box-img {
+    max-width: 390px;
+  }
+}
+
+/* =====================================================
+   AJUSTE FINAL - CENTRALIZAR CAIXINHA GUARDADA
+===================================================== */
+
+.final-letter.closed {
+  width: 100%;
+  max-width: 680px;
+  margin: 18px auto 22px !important;
+
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+.memory-cover {
+  width: 100%;
+  max-width: 520px;
+
+  margin: 0 auto !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  flex-direction: column;
+  align-items: center !important;
+  justify-content: center !important;
+
+  text-align: center;
+
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+
+  transform: none !important;
+  overflow: visible !important;
+}
+
+.memory-cover:hover {
+  transform: none !important;
+}
+
+.memory-image-wrap {
+  width: 100% !important;
+  max-width: 390px;
+
+  margin: 0 auto 12px !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  text-align: center;
+
+  transform: none !important;
+  position: relative;
+  left: auto !important;
+  right: auto !important;
+}
+
+.memory-box-img {
+  display: block !important;
+
+  width: 100% !important;
+  max-width: 360px;
+  height: auto !important;
+
+  margin: 0 auto !important;
+
+  object-fit: contain;
+  object-position: center center;
+
+  transform: none !important;
+  rotate: 0deg !important;
+
+  filter:
+    drop-shadow(0 18px 26px rgba(201, 85, 119, 0.18))
+    saturate(1.03);
+}
+
+.memory-subtitle {
+  max-width: 340px;
+  margin: 0 auto !important;
+
+  text-align: center;
+}
+
+.memory-cta {
+  margin: 8px auto 0 !important;
+}
+
+/* celular */
+@media (max-width: 600px) {
+  .final-letter.closed {
+    margin: 12px auto 20px !important;
+  }
+
+  .memory-cover {
+    max-width: 100%;
+  }
+
+  .memory-image-wrap {
+    max-width: 330px;
+    margin-bottom: 10px !important;
+  }
+
+  .memory-box-img {
+    max-width: 315px;
+  }
+
+  .memory-subtitle {
+    max-width: 280px;
+    font-size: 0.86rem;
+  }
+
+  .memory-cta {
+    min-width: 220px;
+  }
+}
+
+/* =====================================================
+   AJUSTES FINAIS DE POLIMENTO
+===================================================== */
+
+/* Corrige linha/contorno preto no histórico */
+.history-day,
+.history-day-head,
+.history-day summary {
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.history-day:focus,
+.history-day-head:focus,
+.history-day summary:focus {
+  outline: none !important;
+}
+
+.history-day:focus-within {
+  box-shadow: 0 8px 22px rgba(201, 85, 119, 0.08);
+}
+
+/* Mais respiro entre caixinha e histórico */
+.final-letter.closed {
+  margin-bottom: 42px !important;
+}
+
+/* Ajuste fino da caixinha no celular */
+@media (max-width: 600px) {
+  .memory-image-wrap {
+    max-width: 300px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .memory-box-img {
+    max-width: 285px !important;
+  }
+
+  .memory-subtitle {
+    max-width: 270px;
+    line-height: 1.55;
+  }
+
+  .memory-cta {
+    min-width: 225px;
+    min-height: 48px;
+    font-size: 0.86rem;
+  }
+}
+
+/* =====================================================
+   NOVO VISUAL DAS CATEGORIAS
+===================================================== */
+
+.open-note {
+  width: 100%;
+  max-width: 520px;
+  margin: -10px auto 4px;
+
+  text-align: center;
+
+  font-size: 0.98rem;
+  font-weight: 500;
+  line-height: 1.65;
+
+  color: var(--text-mid);
+}
+
+.cat-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 18px;
+}
+
+.cat-card {
+  position: relative;
+  overflow: hidden;
+
+  min-height: auto;
+  padding: 26px 22px 24px;
+
+  border-radius: 28px;
+
+  background:
+    radial-gradient(circle at 18% 10%, rgba(255, 255, 255, 0.92), transparent 28%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.72), rgba(255, 239, 245, 0.72));
+
+  border: 1px solid rgba(255, 255, 255, 0.78);
+
+  box-shadow:
+    0 14px 34px rgba(201, 85, 119, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.cat-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  width: 66px;
+  height: 66px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.45),
+    rgba(232, 120, 154, 0.08)
+  );
+
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+  opacity: 0.9;
+}
+
+.cat-card::after {
+  content: "";
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  top: 58px;
+
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(232, 120, 154, 0.32),
+    transparent
+  );
+}
+
+.cat-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(232, 120, 154, 0.22);
+  box-shadow:
+    0 18px 42px rgba(201, 85, 119, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.cat-card h2 {
+  position: relative;
+  z-index: 1;
+
+  margin-bottom: 24px;
+
+  font-family: "Nunito", sans-serif;
+  font-size: 1.18rem;
+  font-weight: 800;
+
+  color: var(--rose-dark);
+  text-align: center;
+}
+
+.cat-btn {
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+  min-height: 50px;
+
+  margin: 10px 0;
+  padding: 13px 16px;
+
+  border: 1px solid rgba(232, 120, 154, 0.14);
+  border-radius: 16px;
+
+  background:
+    linear-gradient(135deg, rgba(255, 220, 232, 0.95), rgba(246, 180, 200, 0.88));
+
+  color: var(--text);
+
+  font-family: "Quicksand", sans-serif;
+  font-size: 0.96rem;
+  font-weight: 800;
+
+  box-shadow:
+    0 6px 14px rgba(201, 85, 119, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.cat-btn:hover {
+  transform: translateY(-2px);
+
+  background:
+    linear-gradient(135deg, rgba(255, 209, 225, 1), rgba(240, 154, 181, 0.96));
+
+  box-shadow:
+    0 10px 20px rgba(201, 85, 119, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.62);
+}
+
+.cat-btn:active {
+  transform: scale(0.97);
+}
+
+@media (max-width: 600px) {
+  .open-note {
+    text-align: left;
+    font-size: 0.96rem;
+    margin-top: -8px;
+  }
+
+  .cat-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .cat-card {
+    padding: 25px 20px 23px;
+    border-radius: 26px;
+  }
+
+  .cat-card h2 {
+    margin-bottom: 22px;
+  }
+
+  .cat-btn {
+    min-height: 50px;
+    margin: 9px 0;
+  }
+}
+
+/* =====================================================
+   POLIMENTO DA PRIMEIRA TELA / ENVELOPE
+===================================================== */
+
+#intro .intro-title {
+  max-width: 340px;
+  text-shadow: 0 4px 18px rgba(201, 85, 119, 0.12);
+}
+
+#intro .intro-sub {
+  max-width: 300px;
+  line-height: 1.6;
+}
+
+.env-letter {
+  min-height: 74px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 14px 16px;
+
+  font-family: "Quicksand", sans-serif !important;
+  font-size: 0.88rem !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0.2px;
+  font-style: italic;
+  color: var(--rose-dark);
+
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 18px,
+      rgba(201, 85, 119, 0.06) 19px
+    ),
+    linear-gradient(160deg, #fffdfb, #fff2f6);
+
+  border: 1px solid rgba(232, 120, 154, 0.16);
+  box-shadow: 0 10px 24px rgba(201, 85, 119, 0.16);
+}
+
+.envelope.open .env-letter {
+  top: 13%;
+}
+
+#intro .btn-primary {
+  min-width: 165px;
+
+  background:
+    linear-gradient(135deg, #f09ab5 0%, #c95577 100%);
+
+  box-shadow:
+    0 10px 26px rgba(201, 85, 119, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+
+  text-transform: lowercase;
+}
+
+#intro .btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 14px 34px rgba(201, 85, 119, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
